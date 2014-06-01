@@ -1,0 +1,23 @@
+# Makefile for dpcore_py.c
+#
+# 2014-05-30 Dan Ellis dpwe@ee.columbia.edu
+
+# Compile rules for C-extension version of dpcore
+
+# darwinports
+#PYDIR=/opt/local/Library
+# homebrew
+PYDIR=/usr/local/Cellar/python/2.7.6
+
+CFLAGS=-I${PYDIR}/Frameworks/Python.framework/Versions/2.7/include/python2.7 -I${PYDIR}/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/numpy/core/include
+
+
+# ---- Link --------------------------- 
+_dpcore_py.so: dpcore_py.o
+	gcc -bundle -flat_namespace -undefined suppress -o _dpcore_py.so dpcore_py.o
+
+# ---- gcc C compile ------------------
+dpcore_py.o: dpcore_py.c
+	gcc ${CFLAGS} -O3 -c dpcore_py.c
+
+
