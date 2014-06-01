@@ -55,17 +55,24 @@ and phi[r,c] as the indicator of the point preceding [r,c] to
 allow traceback; 0 = (r-1,c-1), 1 = (r,c-1), 2 = (r-1, c)
 
 :params:
+
     M : np.array of float
       Array of local costs
+
     pen : float
       Penalty to apply for non-diagonal steps
 
 :returns:
+
     D : np.array of float
       Array of best costs to each point, starting from (0,0)
+
     phi : np.array of int
       Traceback indices indicating the last step taken by 
       the lowest-cost path reaching this point.  Values:
-	0 : previous point was r-1, c-1
-	1 : previous point was r, c-1
-	2 : previous point was r-1, c
+
+	0   previous point was r-1, c-1
+
+	1   previous point was r, c-1
+
+	2   previous point was r-1, c
