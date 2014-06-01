@@ -20,26 +20,36 @@ Use dynamic programming to find a min-cost path through a matrix
 of local costs.
 
 :params:
+
   local_costs : np.array of float
     matrix of local costs at each cell
+
   penalty : float
     additional cost incurred by (0,1) and (1,0) steps [default: 0.0]
+
   gutter : float
     proportion of edge length away from [-1,-1] that best path will 
     be accepted at. [default: 0.0 i.e. must reach top-right]
 
 :returns:
+
   p, q : np.array of int
     row and column indices of best path
+
   total_costs : np.array of float
     matrix of minimum costs to each point
+
   phi : np.array of int
     traceback matrix indicating preceding best-path step for each cell:
+
       0  diagonal predecessor
+
       1  previous column, same row
+
       2  previous row, same column
 
 :note:
+
   port of Matlab routine dp.m, 
   http://labrosa.ee.columbia.edu/matlab/dtw/
 
