@@ -25,6 +25,7 @@ def dpcore(M, pen, use_extension=USE_EXTENSION):
         Array of local costs
       pen : float
         Penalty to apply for non-diagonal steps
+
     :returns:
       D : np.array of float
         Array of best costs to each point, starting from (0,0)
@@ -64,6 +65,7 @@ def dp(local_costs, penalty=0.0, gutter=0.0):
     """
     Use dynamic programming to find a min-cost path through a matrix 
     of local costs.
+
     :params:
       local_costs : np.array of float
         matrix of local costs at each cell
@@ -72,19 +74,21 @@ def dp(local_costs, penalty=0.0, gutter=0.0):
       gutter : float
         proportion of edge length away from [-1,-1] that best path will 
         be accepted at. [default: 0.0 i.e. must reach top-right]
+
     :returns:
       p, q : np.array of int
         row and column indices of best path
       total_costs : np.array of float
         matrix of minimum costs to each point
       phi : np.array of int
-        traceback matrix indicating preceding best-path step for each cell
-          0 = diagonal predecessor
-          1 = previous column, same row
-          2 = previous row, same column
+        traceback matrix indicating preceding best-path step for each cell:
+          0  diagonal predecessor
+          1  previous column, same row
+          2  previous row, same column
+
     :note:
       port of Matlab routine dp.m, 
-      http://www.ee.columbia.edu/ln/rosa/matlab/dtw/
+      http://labrosa.ee.columbia.edu/matlab/dtw/
     """
     rows, cols = np.shape(local_costs)
     total_costs = np.zeros( (rows+1, cols+1), np.float)
