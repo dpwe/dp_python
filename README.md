@@ -73,9 +73,9 @@ allow traceback; 0 = (r-1,c-1), 1 = (r,c-1), 2 = (r-1, c)
 
 **returns**
 <DL>
-    <DT>D : **np.array of float**</DT>
+    <DT>D : <I>np.array of float</I></DT>
       <DD>Array of best costs to each point, starting from (0,0)</DD>
-    <DT>phi : np.array of int</DT>
+    <DT>phi : <I>np.array of int</I></DT>
       <DD>Traceback indices indicating the last step taken by 
       the lowest-cost path reaching this point.  Values:
          <UL>
