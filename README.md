@@ -20,7 +20,7 @@ Functions in `dpcore.py`
 Use dynamic programming to find a min-cost path through a matrix 
 of local costs.
 
-*params*
+**params**
 <DL>
   <DT>local_costs : <I>np.array of float</I></DT>
     <DD>matrix of local costs at each cell</DD>
@@ -31,7 +31,7 @@ of local costs.
     be accepted at. [default: 0.0 i.e. must reach top-right]</DD>
 </DL>
 
-*returns*
+**returns**
 <DL>
   <DT>p, q : <I>np.array of int</I></DT>
     <DD>row and column indices of best path</DD>
@@ -46,7 +46,7 @@ of local costs.
        </UL></DD>
 </DL>
 
-*note*
+**note**
   Port of Matlab routine `dp.m` (with some modifications).  See 
   http://labrosa.ee.columbia.edu/matlab/dtw/
 
@@ -61,7 +61,7 @@ Create D[r,c] as the array of costs-of-best-paths to r,c,
 and phi[r,c] as the indicator of the point preceding [r,c] to 
 allow traceback; 0 = (r-1,c-1), 1 = (r,c-1), 2 = (r-1, c)
 
-*params*
+**params**
 <DL>
     <DT>M : <I>np.array of float</I></DT>
       <DD>Matrix of local costs</DD>
@@ -71,11 +71,11 @@ allow traceback; 0 = (r-1,c-1), 1 = (r,c-1), 2 = (r-1, c)
       <DD>If False, use the pure-python parallel implementation [default: True]</DD>
 </DL>
 
-*returns*
+**returns**
 <DL>
-    <DT>D : <I>np.array of float</I></DT>
+    <DT>D : **np.array of float**</DT>
       <DD>Array of best costs to each point, starting from (0,0)</DD>
-    <DT>phi : <I>np.array of int</I></DT>
+    <DT>phi : np.array of int</DT>
       <DD>Traceback indices indicating the last step taken by 
       the lowest-cost path reaching this point.  Values:
          <UL>
