@@ -7,55 +7,52 @@ Based on the Matlab DP external: http://labrosa.ee.columbia.edu/matlab/dtw/
 
 Implments the classic dynamic programming best-path calculation.  Because the inner loop is implemented as a C routine, it is more than 1000x faster than the equivalent pure Python.
 
-You need to execute `make -f Makefile.dpcore_py` to create the compiled object to load into Python.  The enclosed Makefile works for my Homebrew install of Python on my Macbook; other machines/installs will require edited Makefiles.
+You need to execute `make -f Makefile.dpcore_py` to create the compiled object to load into Python.  The enclosed Makefile works for my Homebrew install of Python on my Macbook; other machines/installs will require edited Makefiles. 
+I also enclose a more standard `setup.py`, so you should be able to compile simply with `python setup.py build`.  This creates the `_dpcore_py.so` file that you can put somewhere that `import _dpcore_py` will find it.
 
 See `dp.py` for the source of an ipython notebook demonstrating the usage.  The output is here: http://nbviewer.ipython.org/github/dpwe/dp_python/blob/master/dp.ipynb
 
 Functions in `dpcore.py`
 ------------------------
 
-`dp(local_costs, penalty=0.0, gutter=0.0)`
+#`dp(local_costs, penalty=0.0, gutter=0.0)`
 
 Use dynamic programming to find a min-cost path through a matrix 
 of local costs.
 
-:params:
+####params
+<DL>
+  <DT>local_costs : <I>np.array of float</I></DT>
+    <DD>matrix of local costs at each cell</DD>
+  <DT>penalty : <I>float</I></DT>
+    <DD>additional cost incurred by (0,1) and (1,0) steps [default: 0.0]</DD>
+  <DT>gutter : <I>float</I></DT>
+    <DD>proportion of edge length away from [-1,-1] that best path will 
+    be accepted at. [default: 0.0 i.e. must reach top-right]</DD>
+</DL>
 
-  local_costs : np.array of float
-    matrix of local costs at each cell
+####returns
+<DL>
+  <DT>p, q : <I>np.array of int</I></DT>
+    <DD>row and column indices of best path</DD>
+  <DT>total_costs : <I>np.array of float</I></DT>
+    <DD>matrix of minimum costs to each point</DD>
+  <DT>phi : <I>np.array of int</I></DT>
+    <DD>traceback matrix indicating preceding best-path step for each cell:
+       <UL>
+         <LI>0  -- diagonal predecessor </LI>
+         <LI>1  -- previous column, same row</LI>
+         <LI>2  -- previous row, same column</LI>
+       </UL></DD>
+</DL>
 
-  penalty : float
-    additional cost incurred by (0,1) and (1,0) steps [default: 0.0]
-
-  gutter : float
-    proportion of edge length away from [-1,-1] that best path will 
-    be accepted at. [default: 0.0 i.e. must reach top-right]
-
-:returns:
-
-  p, q : np.array of int
-    row and column indices of best path
-
-  total_costs : np.array of float
-    matrix of minimum costs to each point
-
-  phi : np.array of int
-    traceback matrix indicating preceding best-path step for each cell:
-
-      0  diagonal predecessor
-
-      1  previous column, same row
-
-      2  previous row, same column
-
-:note:
-
-  port of Matlab routine dp.m, 
+####note
+  Port of Matlab routine `dp.m` (with some modifications).  See 
   http://labrosa.ee.columbia.edu/matlab/dtw/
 
+<HR>
 
-
-`dpcore(M, pen, use_extension=USE_EXTENSION)`
+#`dpcore(M, pen, use_extension=True)`
 
 Core dynamic programming calculation of best path.
 
@@ -64,25 +61,27 @@ Create D[r,c] as the array of costs-of-best-paths to r,c,
 and phi[r,c] as the indicator of the point preceding [r,c] to 
 allow traceback; 0 = (r-1,c-1), 1 = (r,c-1), 2 = (r-1, c)
 
-:params:
+####params
+<DL>
+    <DT>M : <I>np.array of float</I></DT>
+      <DD>Matrix of local costs</DD>
+    <DT>pen : <I>float</I></DT>
+      <DD>Penalty to apply for non-diagonal steps</DD>
+    <DT>use_extension : <I>boolean</I></DT>
+      <DD>If False, use the pure-python parallel implementation [default: True]</DD>
+</DL>
 
-    M : np.array of float
-      Array of local costs
+####returns
 
-    pen : float
-      Penalty to apply for non-diagonal steps
-
-:returns:
-
-    D : np.array of float
-      Array of best costs to each point, starting from (0,0)
-
-    phi : np.array of int
-      Traceback indices indicating the last step taken by 
+<DL>
+    <DT>D : <I>np.array of float</I></DT>
+      <DD>Array of best costs to each point, starting from (0,0)</DD>
+    <DT>phi : <I>np.array of int</I></DT>
+      <DD>Traceback indices indicating the last step taken by 
       the lowest-cost path reaching this point.  Values:
-
-	0   previous point was r-1, c-1
-
-	1   previous point was r, c-1
-
-	2   previous point was r-1, c
+         <UL>
+	   <LI>0  -- previous point was r-1, c-1</LI>
+           <LI>1  -- previous point was r, c-1</LI>
+           <LI>2  -- previous point was r-1, c</LI>
+         </UL></DD>
+</DL>
