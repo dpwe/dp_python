@@ -1,22 +1,21 @@
 dp_python
 =========
 
-Optimized Dynamic Programming (Dynamic Time Warp) as a Python external.
+Optimized Dynamic Programming (DP) / Dynamic Time Warp (DTW) as a Python external.
+
+Implments the classic dynamic programming best-path calculation.  Because the inner loop is implemented as a C routine, it is 500-1000x faster than the equivalent pure Python.
+
+The external library needs to be compiled; this should be possible with `python setup.py build`.  This creates the `_dpcore_py.so` file that you can put in the same directory as `dp.py`.  If you're running on a Mac, you may be able to simply `make -f Makefile.dpcore_py` to create the compiled object to load into Python.  
+
+See http://nbviewer.ipython.org/github/dpwe/dp_python/blob/master/dp.ipynb for an ipython notebook demonstrating the DTW alignment of two spoken utterances.
 
 Based on the Matlab DP external: http://labrosa.ee.columbia.edu/matlab/dtw/
 
-Implments the classic dynamic programming best-path calculation.  Because the inner loop is implemented as a C routine, it is more than 1000x faster than the equivalent pure Python.
-
-You need to execute `make -f Makefile.dpcore_py` to create the compiled object to load into Python.  The enclosed Makefile works for my Homebrew install of Python on my Macbook; other machines/installs will require edited Makefiles. 
-I also enclose a more standard `setup.py`, so you should be able to compile simply with `python setup.py build`.  This creates the `_dpcore_py.so` file that you can put somewhere that `import _dpcore_py` will find it.
-
-See `dp.py` for the source of an ipython notebook demonstrating the usage.  The output is here: http://nbviewer.ipython.org/github/dpwe/dp_python/blob/master/dp.ipynb
-
 Functions in `dpcore.py`
-========================
+------------------------
 
-`dp(local_costs, penalty=0.0, gutter=0.0)`
-------------------------------------------
+######`dp(local_costs, penalty=0.0, gutter=0.0)`
+
 Use dynamic programming to find a min-cost path through a matrix 
 of local costs.
 
@@ -52,8 +51,8 @@ of local costs.
 
 <HR>
 
-`dpcore(M, pen, use_extension=True)`
-------------------------------------
+######`dpcore(M, pen, use_extension=True)`
+
 Core dynamic programming calculation of best path.
 
 M[r,c] is the array of local costs.  
